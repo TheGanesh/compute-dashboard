@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Final</title>
+    <link rel="stylesheet" type="text/css" href="styles/jquery.dataTables.css">
+    <script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="styles/style.css">
+
+    <script type="text/javascript">
+
+       var callDescribeEC2API = function() {
+
+         $.ajax({
+                    url: "/compute-dashboard/api/describe/ec2instances",
+                    type:"GET",
+                    success: function(data){
+
+                         $('#loginDiv').hide();
+                         $('#contentDiv').show();
+
+                          $('#EC2Table').DataTable( {
+                          data: data,
+                          columns: [
+                                     { data: 'name' },
+                                     { data: 'id' },
+                                     { data: 'type' },
+                                     { data: 'state' },
+                                     { data: 'az' },
+                                     { data: 'publicIp' },
+                                     { data: 'privateIp' }
+                                   ]
+                          } );
+                           },
+                         error: function(){
+                                 $('#contentDiv').hide();
+                                 $('#loginDiv').show();
+                                 $('#loginFailure').hide();
+                                 $('#oopsError').show();
+
+                          }
+                 });
+       };
+
+
+
+      $(document).ready(function(){
+
+        $('#loginDiv').show();
+        $('#loginFailure').hide();
+        $('#oopsError').hide();
+        $('#contentDiv').hide();
+
+           $("#submit").click(function() {
+
+              $.ajax({
+                    url: "/compute-dashboard/api/auth",
+                    type:"POST",
+                    data:{username: $('#username').val(),password: $('#password').val()  },
+                    success: function(){
+                              $('#loginDiv').hide();
+                              callDescribeEC2API();
+                             },
+                              error: function(){
+                                $('#loginFailure').show();
+                                $('#oopsError').hide();
+                              }
+                 });
+
+
+              });
+
+
+     });
+
+</script>
+</head>
+
+<body>
+
+
+<section class="container">
+
+    <div class="login" id="loginDiv">
+        <h1>Login to Dashboard</h1>
+
+        <p><input type="text" id="username" value="" placeholder="Username"></p>
+
+        <p><input type="password" id="password" value="" placeholder="Password"></p>
+
+        <p class="submit"><input type="submit" id="submit" value="Login"></p>
+
+        <span id="loginFailure"> <h4>Username/Password is invalid.</h4></span>
+        <span id="oopsError"> <h2>Oops something went wrong, please try after some time</h2></span>
+
+
+    </div>
+
+    <div id="contentDiv">
+        <table id="EC2Table" class="display" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Id</th>
+                <th>Type</th>
+                <th>State</th>
+                <th>Az</th>
+                <th>PublicIP</th>
+                <th>PrivateIP</th>
+            </tr>
+            </thead>
+
+            <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Id</th>
+                <th>Type</th>
+                <th>State</th>
+                <th>Az</th>
+                <th>PublicIP</th>
+                <th>PrivateIP</th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</section>
+</body>
+</html>
