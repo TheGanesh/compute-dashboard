@@ -9,11 +9,16 @@
 	http://www.springframework.org/schema/util
     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-    <context:component-scan base-package="com.ganesh" />
+    <context:component-scan base-package="com.ganesh"/>
 
-    <util:map id="credentialsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
-        <entry key="admin" value="password" />
+    <util:map id="credentialsMap" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.String">
+        <entry key="admin" value="password"/>
     </util:map>
+
+    <util:list id="apiAuthEntriesList" list-class="java.util.ArrayList">
+        <value>sampleToken</value>
+    </util:list>
 
 
 </beans>
