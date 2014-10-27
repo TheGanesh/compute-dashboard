@@ -47,8 +47,6 @@ class DashboardServiceImpl implements DashboardService {
         try {
 
             DescribeInstancesRequest instancesRequest = new DescribeInstancesRequest()
-            //TODO remove this maxresults
-            instancesRequest.setMaxResults(10);
             DescribeInstancesResult instancesResult = amazonEC2Client.describeInstances(instancesRequest)
 
 

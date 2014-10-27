@@ -1,3 +1,23 @@
+   var callAuthAPI = function(){
+                  $.ajax({
+                      url: "/compute-dashboard/api/auth",
+                      type:"POST",
+                      headers: {
+                         "X-AUTH-TOKEN":"sampleToken"
+                       },
+                      data:{username: $('#username').val(),password: $('#password').val()  },
+                      success: function(){
+                                $('#loginDiv').hide();
+                                callDescribeEC2API();
+                               },
+                       error: function(){
+                                  $('#loginFailure').show();
+                                  $('#oopsError').hide();
+                       }
+                   });
+        };
+
+
   var callDescribeEC2API = function() {
 
           $.ajax({
@@ -35,21 +55,3 @@
        };
 
 
-     var callAuthAPI = function(){
-                $.ajax({
-                    url: "/compute-dashboard/api/auth",
-                    type:"POST",
-                    headers: {
-                       "X-AUTH-TOKEN":"sampleToken"
-                     },
-                    data:{username: $('#username').val(),password: $('#password').val()  },
-                    success: function(){
-                              $('#loginDiv').hide();
-                              callDescribeEC2API();
-                             },
-                              error: function(){
-                                $('#loginFailure').show();
-                                $('#oopsError').hide();
-                              }
-                 });
-      };
